@@ -1,0 +1,29 @@
+name: Build and push
+
+on:
+  push:
+  
+  schedule:
+    - cron:  '0 2 * * *'
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Clone syncing server
+      run: git clone https://github.com/standardnotes/syncing-server.git
+
+    - name: Build the Docker image
+      run: docker build -t chrisnharvey/standardnotes-syncing-server:latest .
+
+    - uses: azure/docker-login@v1
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        email: ${{ secrets.DOCKER_EMAIL }}
+        
+    - name: Push image to registry
+      run: docker push chrisnharvey/standardnotes-syncing-server:latest
