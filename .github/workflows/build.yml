@@ -17,7 +17,7 @@ jobs:
       run: git clone https://github.com/standardnotes/syncing-server.git
 
     - name: Build the Docker image
-      run: docker build -t chrisnharvey/standardnotes-syncing-server:latest .
+      run: docker build -t chrisnharvey/standardnotes-syncing-server:latest ./syncing-server
 
     - uses: azure/docker-login@v1
       with:
